@@ -1,2 +1,2 @@
-# PointNet-VAE
-A Variational PointNet Encoder Decoder for 3D Point Cloud data
+# PointNet-Transformer
+A Transformer-based 3D Point Cloud Autoregressive Generative Model
