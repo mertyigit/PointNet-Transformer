@@ -25,7 +25,9 @@ import math
 import yaml
 import argparse
 
-
+from ..utils.features import *
+from .MultiHeadAttentionBlock import *
+from .VisualTransformerEncoder import PositionWiseFeedForward
 
 class VisualTransformerDecoderBlock(nn.Module):
     def __init__(self, hidden_d, n_heads, d_ff, dropout):

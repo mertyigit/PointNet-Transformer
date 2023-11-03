@@ -25,10 +25,19 @@ import math
 import yaml
 import argparse
 
-sys.path.append('..')
-from utils.features import *
+from ..utils.features import *
 from .MultiHeadAttentionBlock import *
 
+class PositionWiseFeedForward(nn.Module):
+    def __init__(self, hidden_d, d_ff):
+        super(PositionWiseFeedForward, self).__init__()
+        self.fc1 = nn.Linear(hidden_d, d_ff)
+        self.fc2 = nn.Linear(d_ff, hidden_d)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        return self.fc2(self.relu(self.fc1(x)))
+        
 class VisualTransformerEncoderBlock(nn.Module):
     '''
     Not typical transformer block, the normalization and linear layers are there but the order is different.

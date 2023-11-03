@@ -25,6 +25,9 @@ import math
 import yaml
 import argparse
 
+from .VisualTransformerEncoder import VisualTransformerEncoder
+from .VisualTransformerDecoder import VisualTransformerDecoder
+
 class Transformer(nn.Module):
     def __init__(self, hidden_d, n_heads, num_layers, d_ff, dropout, n_patches):
         super(Transformer, self).__init__()
