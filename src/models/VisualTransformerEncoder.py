@@ -25,7 +25,9 @@ import math
 import yaml
 import argparse
 
-
+sys.path.append('..')
+from utils.features import *
+from .MultiHeadAttentionBlock import *
 
 class VisualTransformerEncoderBlock(nn.Module):
     '''
