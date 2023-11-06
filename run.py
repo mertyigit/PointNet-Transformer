@@ -34,15 +34,14 @@ import argparse
 
 
 ### IN-HOUSE CODES ###
-from src.models.PointNetEncoder import PointNetBackbone
-from src.utils.calculate_loss import ChamferDistanceLoss
-from src.models.PointCloudEncoder import PointCloudEncoder
-from src.models.PointCloudDecoder import PointCloudDecoder, PointCloudDecoderSelf, PointCloudDecoderMLP
-from src.models.AutoEncoder import AutoEncoder
-from src.models.VAE import VAE
-from src.data.dataset import DataModelNet
-from src.utils.utils import *
 from src.utils.train import Trainer
+from src.models.VisualTransformerEncoder import *
+from src.models.VisualTransformerDecoder import *
+from src.models.MultiHeadAttentionBlock import *
+from src.models.VisualTransformerGenerator import *
+from src.utils import features, utils
+from src.data.dataset import DataMNIST
+
 #######################
 
 from tqdm import tqdm
@@ -95,19 +94,24 @@ EPOCHS = config['trainer_parameters']['epochs']
 LR = config['trainer_parameters']['lr']
 LATENT_DIM = config['model_parameters']['latent_dim']
 DEVICE = config['model_parameters']['device']
+N_HEADS = config['model_parameters']['num_heads']
+N_LAYERS = config['model_parameters']['num_layers']
+DFFN = config['model_parameters']['d_ffn']
+DROPOUT = config['trainer_parameters']['dropout']
+NPATCHES = config['model_parameters']['n_patches']
 
 #### LOAD DATA ####
-data = DataModelNet(**config["data_parameters"])
+data = DataMNIST(**config["data_parameters"])
 data.setup()
 train_dataloader = data.train_dataloader()
 val_dataloader = data.val_dataloader()
 ###################
 
-transformer = Transformer(hidden_d, n_heads, num_layers, d_ff, dropout, n_patches).to(DEVICE)
+transformer = Transformer(LATENT_DIM, N_HEADS, N_LAYERS, DFFN, DROPOUT, NPATCHES).to(DEVICE)
 
-model_run = Trainer(model=vae, 
-                    criterion=ChamferDistanceLoss(),
-                    optimizer=optim.Adam(vae.parameters(), config['trainer_parameters']['lr']),
+model_run = Trainer(model=transformer, 
+                    criterion=nn.MSELoss(),
+                    optimizer=optim.Adam(transformer.parameters(), config['trainer_parameters']['lr']),
                     **config['model_parameters']
                     )
 

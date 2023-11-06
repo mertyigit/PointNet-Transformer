@@ -22,7 +22,10 @@ class Trainer:
         experiment,
         device,
         latent_dim,
-        
+        d_ffn,
+        n_patches,
+        num_heads,
+        num_layers,
     ):
 
         super().__init__()
@@ -34,6 +37,10 @@ class Trainer:
         self.experiment = experiment
         self.device = device
         self.latent_dim = latent_dim
+        self.d_ffn = d_ffn
+        self.n_patches = n_patches
+        self.num_heads = num_heads
+        self.num_layers = num_layers
     
     def fit(self, train_loader, val_loader, epochs):
         self._wandb_initiate()
@@ -79,7 +86,7 @@ class Trainer:
             images, _ = data # No need to return
             images = images.to(self.device)
             
-            reconstructed_image = self.model(points)
+            reconstructed_image = self.model(images)
             
             loss = self.criterion(reconstructed_image, images)
             loss.backward()
@@ -99,7 +106,7 @@ class Trainer:
             for i, data in tqdm(enumerate(loader)):   
                 images, _ = data # No need to return
                 images = images.to(self.device)
-                reconstructed_image = self.model(points)
+                reconstructed_image = self.model(images)
                 
                 loss = self.criterion(reconstructed_image, images)
                 _loss.append(loss.item())

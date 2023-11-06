@@ -1,17 +1,19 @@
 model_parameters:
-  encoder_type: 'ConvolutionEncoder'
-  model_type: 'VAE'
   checkpoint: './models/checkpoints'
-  experiment: 'PointNet-VAE'
+  experiment: 'Visual_Transformer'
   device: 'mps'
   latent_dim: 128
-  kl_loss_weight: 0.00001
+  num_heads: 8
+  num_layers: 4
+  d_ffn: 512
+  n_patches: 7
 
 trainer_parameters:
-  lr: 0.00001
+  lr: 0.001
   weight_decay: 0.0
-  manual_seed: 44
+  manual_seed: 42
   epochs: 1000
+  dropout: 0.1
 
 data_parameters:
   data_path: "../data/ModelNet10"
