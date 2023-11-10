@@ -78,6 +78,7 @@ class DataMNIST():
                     self.train_dataset,
                     batch_size=self.train_batch_size,
                     shuffle=True,
+                    pin_memory=False,
         )
 
     def val_dataloader(self) -> DataLoader:
@@ -85,5 +86,6 @@ class DataMNIST():
                     self.val_dataset,
                     batch_size=self.val_batch_size,
                     shuffle=False,
+                    pin_memory=False,
         )
     

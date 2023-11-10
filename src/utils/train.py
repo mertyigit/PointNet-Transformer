@@ -9,6 +9,7 @@ import numpy as np
 import os
 import wandb
 
+
 class Trainer:
     '''
     Trainer object.
@@ -43,18 +44,21 @@ class Trainer:
         self.num_layers = num_layers
     
     def fit(self, train_loader, val_loader, epochs):
+        torch.manual_seed(42)
+        self.model.to(self.device)
         self._wandb_initiate()
         for epoch in tqdm(range(epochs)):
             # train
-            train_loss, train_rc_loss, train_kl_loss = self._train(train_loader)
-            #print('Epoch: {} - Loss: {} - Reconst Loss: {} - KL Loss: {}'.format(epoch, train_loss, train_rc_loss, train_kl_loss))
-            wandb.log({"Training Loss": train_loss, "Training Reconst Loss": train_rc_loss, "Training KL Loss": train_kl_loss})
+            train_loss = self._train(train_loader)
+
+            wandb.log({"Training Loss": train_loss})
             # validate
-            val_loss, val_rc_loss, val_kl_loss = self._validate(val_loader)
-            #print('Epoch: {} - Loss: {} - Reconst Loss: {} - KL Loss: {}'.format(epoch, val_loss, val_rc_loss, val_kl_loss))
-            wandb.log({"Validation Loss": val_loss, "Validation Reconst Loss": val_rc_loss, "Validation KL Loss": val_kl_loss})
+            val_loss = self._validate(val_loader)
+
+            wandb.log({"Validation Loss": val_loss})
             #save model state
             self._save_checkpoint(train_loss, val_loss, epoch)
+            
 
     def _wandb_initiate(self):
         #### W&B INIT ###
@@ -77,22 +81,24 @@ class Trainer:
 
     def _train(self, loader):
         _loss = []
-        self.model.to(self.device)
+        
         self.model.train()
 
-        for i, data in tqdm(enumerate(loader)):            
+        for images, y in tqdm(loader):            
             self.optimizer.zero_grad()
 
-            images, _ = data # No need to return
+            #images, _ = data # No need to return
             images = images.to(self.device)
-            
+            y = y.to(self.device)
+
             reconstructed_image = self.model(images)
             
             loss = self.criterion(reconstructed_image, images)
             loss.backward()
             self.optimizer.step()
 
-            _loss.append(loss.item())
+            _loss.append(loss.detach().cpu().item())
+            torch.mps.empty_cache()
 
         epoch_loss = np.mean(_loss)
         
@@ -100,17 +106,20 @@ class Trainer:
 
     def _validate(self, loader):
         _loss = []
+       
         self.model.eval()
 
         with torch.no_grad():
-            for i, data in tqdm(enumerate(loader)):   
-                images, _ = data # No need to return
+            for images, y in tqdm(loader):   
+                #images, _ = data # No need to return
                 images = images.to(self.device)
+                y = y.to(self.device)
+                
                 reconstructed_image = self.model(images)
                 
                 loss = self.criterion(reconstructed_image, images)
-                _loss.append(loss.item())
-
+                _loss.append(loss.detach().cpu().item())
+                torch.mps.empty_cache()
 
         epoch_loss = np.mean(_loss)
 

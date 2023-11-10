@@ -9,14 +9,14 @@ model_parameters:
   n_patches: 7
 
 trainer_parameters:
-  lr: 0.001
+  lr: 0.00001
   weight_decay: 0.0
   manual_seed: 42
-  epochs: 1000
+  epochs: 100
   dropout: 0.1
 
 data_parameters:
-  data_path: "../data/ModelNet10"
+  data_path: "./data/MNIST"
   pre_transform: T.NormalizeScale()
   train_batch_size: 16
   val_batch_size:  16

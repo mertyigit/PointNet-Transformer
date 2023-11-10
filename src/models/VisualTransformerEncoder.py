@@ -88,7 +88,7 @@ class VisualTransformerEncoder(nn.Module):
         self.linear_mapper = nn.Linear(self.input_d, self.hidden_d)
 
         # 2) Learnable classification token
-        self.class_token = nn.Parameter(torch.rand(1, self.hidden_d))
+        #self.class_token = nn.Parameter(torch.rand(1, self.hidden_d))
 
         # 3) Positional embedding
         self.register_buffer(
@@ -119,5 +119,5 @@ class VisualTransformerEncoder(nn.Module):
         # Transformer Blocks
         for block in self.blocks:
             out = block(out)
-
+        
         return out, patches
