@@ -25,10 +25,19 @@ import math
 import yaml
 import argparse
 
-sys.path.append('..')
-from utils.features import *
+from ..utils.features import *
 from .MultiHeadAttentionBlock import *
 
+class PositionWiseFeedForward(nn.Module):
+    def __init__(self, hidden_d, d_ff):
+        super(PositionWiseFeedForward, self).__init__()
+        self.fc1 = nn.Linear(hidden_d, d_ff)
+        self.fc2 = nn.Linear(d_ff, hidden_d)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        return self.fc2(self.relu(self.fc1(x)))
+        
 class VisualTransformerEncoderBlock(nn.Module):
     '''
     Not typical transformer block, the normalization and linear layers are there but the order is different.
@@ -79,7 +88,7 @@ class VisualTransformerEncoder(nn.Module):
         self.linear_mapper = nn.Linear(self.input_d, self.hidden_d)
 
         # 2) Learnable classification token
-        self.class_token = nn.Parameter(torch.rand(1, self.hidden_d))
+        #self.class_token = nn.Parameter(torch.rand(1, self.hidden_d))
 
         # 3) Positional embedding
         self.register_buffer(
@@ -110,5 +119,5 @@ class VisualTransformerEncoder(nn.Module):
         # Transformer Blocks
         for block in self.blocks:
             out = block(out)
-
+        
         return out, patches

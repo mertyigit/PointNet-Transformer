@@ -1,0 +1,25 @@
+model_parameters:
+  checkpoint: './models/checkpoints'
+  experiment: 'Visual_Transformer'
+  device: 'mps'
+  latent_dim: 128
+  num_heads: 8
+  num_layers: 4
+  d_ffn: 512
+  n_patches: 7
+
+trainer_parameters:
+  lr: 0.00001
+  weight_decay: 0.0
+  manual_seed: 42
+  epochs: 100
+  dropout: 0.1
+
+data_parameters:
+  data_path: "./data/MNIST"
+  pre_transform: T.NormalizeScale()
+  train_batch_size: 16
+  val_batch_size:  16
+  train_num_points: 2048
+  val_num_points: 2048
+

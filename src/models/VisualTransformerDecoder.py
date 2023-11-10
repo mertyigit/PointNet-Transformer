@@ -25,7 +25,9 @@ import math
 import yaml
 import argparse
 
-
+from ..utils.features import *
+from .MultiHeadAttentionBlock import *
+from .VisualTransformerEncoder import PositionWiseFeedForward
 
 class VisualTransformerDecoderBlock(nn.Module):
     def __init__(self, hidden_d, n_heads, d_ff, dropout):
@@ -74,7 +76,7 @@ class VisualTransformerDecoder(nn.Module):
         self.linear_mapper = nn.Linear(self.input_d, self.hidden_d)
 
         # 2) Learnable classification token
-        self.class_token = nn.Parameter(torch.rand(1, self.hidden_d))
+        #self.class_token = nn.Parameter(torch.rand(1, self.hidden_d))
 
         # 3) Positional embedding
         self.register_buffer(
@@ -90,10 +92,10 @@ class VisualTransformerDecoder(nn.Module):
 
         self.linear_decoder = nn.Linear(self.hidden_d, self.input_d)
 
-    def forward(self, images,  enc_output, src_mask, tgt_mask):
+    def forward(self, images, patches,  enc_output, src_mask, tgt_mask):
         # Image to Patches
         n, c, h, w = images.shape
-        patches = patchify(images, self.n_patches).to(self.positional_embeddings.device)
+        #patches = patchify(images, self.n_patches).to(self.positional_embeddings.device)
 
         # Patch vector to Hidden Dimensions
         tokens = self.linear_mapper(patches)
