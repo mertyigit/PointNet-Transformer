@@ -93,7 +93,7 @@ class Trainer:
 
             reconstructed_image = self.model(images)
             
-            loss = self.criterion(reconstructed_image, images)
+            loss = self.criterion(reconstructed_image, y)
             loss.backward()
             self.optimizer.step()
 
@@ -117,7 +117,7 @@ class Trainer:
                 
                 reconstructed_image = self.model(images)
                 
-                loss = self.criterion(reconstructed_image, images)
+                loss = self.criterion(reconstructed_image, y)
                 _loss.append(loss.detach().cpu().item())
                 torch.mps.empty_cache()
 
