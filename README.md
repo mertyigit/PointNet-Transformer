@@ -1,4 +1,4 @@
-# Visual-Transformer
+# Visual-Transformer-Generator
 A Transformer-based Autoregressive Visual Image Generative Model
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
