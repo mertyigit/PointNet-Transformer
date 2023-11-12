@@ -42,11 +42,11 @@ class Evaluater:
         self.model.eval()
 
         with torch.no_grad():
-            
+            images, y = data
             images = images.to(self.device)
             y = y.to(self.device)            
             reconstructed_image = self.model(images)
-            loss = self.criterion(reconstructed_image, images)
+            loss = self.criterion(reconstructed_image, y)
             
 
         print('Loss: {}'.format(loss.detach().cpu().item()))
@@ -65,7 +65,7 @@ class Evaluater:
                 
                 reconstructed_image = self.model(images)
                 
-                loss = self.criterion(reconstructed_image, images)
+                loss = self.criterion(reconstructed_image, y)
                 _loss.append(loss.detach().cpu().item())
 
 
