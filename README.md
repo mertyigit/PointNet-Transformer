@@ -23,11 +23,10 @@ The current version of the code base has been trained on the MNIST dataset. Futu
 
 Outline your plans for the future development of the project. This could include additional features, dataset support, or any improvements you intend to make.
 
-Publish training checkpoints for other image datasets.
-Explore optimization techniques for enhanced performance.
-Collect and incorporate user feedback for refinement.
+- Publish training checkpoints for other image datasets.
+- Explore optimization techniques for diverse sampling from encoded latent space.
 
-
+# MNIST Dataset
 ### Input images used for testing:
 ![Input images used for testing](models/images/input_images.png)
 
