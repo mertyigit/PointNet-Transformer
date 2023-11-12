@@ -5,5 +5,8 @@ A Transformer-based Autoregressive Visual Image Generative Model
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-orange)](https://pytorch.org/)
 [![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Input Images USed for Testing the Trained Model:
+### Input images used for testing:
 ![Input images used for testing](models/images/input_images.png)
+
+### Generated images by trained visual transformer generator:
+![Input images used for testing](models/images/generated_images.png)
