@@ -32,3 +32,12 @@ Outline your plans for the future development of the project. This could include
 
 ### Generated images by trained visual transformer generator:
 ![Input images used for testing](models/images/generated_images.png)
+
+# FashionMNIST Dataset
+### Input images used for testing:
+![image](https://github.com/mertyigit/Visual_Transformer_Generator/assets/18360028/5a307cf8-4cac-4ca4-ab8b-f35bfcfebc75)
+
+### Generated images by trained visual transformer generator:
+![image](https://github.com/mertyigit/Visual_Transformer_Generator/assets/18360028/d890e675-2645-4609-8808-76bf5c99c28e)
+
+
